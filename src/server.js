@@ -1,9 +1,12 @@
 const express = require('express')
  const mongoose = require('mongoose')
+ const morgan = require("morgan");
  require('dotenv').config()
+ require('./models/User')
  //router import
  const authRoutes = require('./routes/authRoutes')
- require('./models/User')
+ const requireAuth = require('./middlewares/requireAuth')
+ 
 
  const app = express()
 
@@ -11,11 +14,12 @@ const express = require('express')
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(authRoutes)
+app.use(morgan("tiny"))
 
 
 
 
-
+const PORT = process.env.PORT || 3000
 
 
  //mongo connection
@@ -34,11 +38,11 @@ mongoose.connection.on('error', (err) => {
 })
 
 
- app.get('/', (req, res) => {
-     res.send('Hi there')
+app.get('/', requireAuth, (req, res) => {
+     res.send(`Your email: ${req.user.email}`)
  })
 
-const PORT = process.env.PORT || 3000
+
 
 app.listen(PORT, () => {
     console.log('Listening on port 3000')
