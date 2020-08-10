@@ -1,6 +1,6 @@
 const express = require('express')
  const mongoose = require('mongoose')
- const morgan = require("morgan");
+ const morgan = require('morgan')
  require('dotenv').config()
  require('./models/User')
  //router import
