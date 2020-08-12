@@ -3,9 +3,12 @@ const express = require('express')
  const morgan = require('morgan')
  require('dotenv').config()
  require('./models/User')
+ require('./models/Track')
  //router import
  const authRoutes = require('./routes/authRoutes')
+ const trackRoutes = require('./routes/trackRoutes')
  const requireAuth = require('./middlewares/requireAuth')
+ 
  
 
  const app = express()
@@ -14,6 +17,7 @@ const express = require('express')
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(authRoutes)
+app.use(trackRoutes)
 app.use(morgan("tiny"))
 
 
